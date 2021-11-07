@@ -41,7 +41,7 @@ class Main(Scene):
         demand_elasticity = 1
         supply_elasticity = 1
 
-        supply_shift = 0
+        supply_shift = 1
         demand_shift = 1
         line_buffer = 0.5
 
@@ -92,12 +92,12 @@ class Main(Scene):
         supply_not = axis_lines.get_graph(
             lambda x: supply_elasticity * (x + supply_shift),
             x_range=supply_not_x_range,
-            color=RED_B
+            color=RED
         )
         demand_not = axis_lines.get_graph(
             lambda x: -demand_elasticity * (x + demand_shift) + y_range[1],
             x_range=demand_not_x_range,
-            color=GREEN_B
+            color=GREEN
         )
         supply_not_label = axis_lines.get_graph_label(
             supply_not,
@@ -170,12 +170,12 @@ class Main(Scene):
         supply_one = axis_lines.get_graph(
             lambda x: supply_elasticity * (x - supply_shift),
             x_range=supply_one_x_range,
-            color=RED_D
+            color=PURE_RED
         )
         demand_one = axis_lines.get_graph(
             lambda x: -demand_elasticity * (x - demand_shift) + y_range[1],
             x_range=demand_one_x_range,
-            color=GREEN_D
+            color=PURE_GREEN
         )
         supply_one_label = axis_lines.get_graph_label(
             supply_one,
@@ -227,12 +227,12 @@ class Main(Scene):
         self.play(Write(VGroup(supply_not_label, demand_not_label)))
         self.play(Create(VGroup(x_dash_not, y_dash_not, eq_not_dot)))
         self.play(Write(VGroup(x_dash_not_label, y_dash_not_label)))
-        self.wait()
 
         if eq_not_cords != eq_one_cords:
+            self.wait()
             self.play(
                 TransformFromCopy(not_graphs, one_graphs, run_time=2),
                 Create(VGroup(not_one_arrow_price, not_one_arrow_quantity), run_time=2)
             )
-            self.wait()
+        self.wait(2)
         VGroup.add(one_graphs, not_one_arrow_quantity, not_one_arrow_price)
